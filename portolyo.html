@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tokib | Web Geliştirici</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    :root {
+      --bg-dark: #0a0f1a;
+      --bg-mid: #181c2b;
+      --bg-light: #232946;
+      --accent: #00d9ff;
+      --accent2: #7f53ac;
+      --text: #f4f4f4;
+      --text-light: #bfc9d1;
+      --card-bg: #181c2b;
+      --shadow: 0 4px 24px rgba(0,0,0,0.13);
+      --radius: 18px;
+      --transition: 0.22s cubic-bezier(.4,2,.6,1);
+    }
+    body.light-mode {
+      --bg-dark: #f4f4f4;
+      --bg-mid: #e9ecf3;
+      --bg-light: #fff;
+      --accent: #0077ff;
+      --accent2: #7f53ac;
+      --text: #232946;
+      --text-light: #444;
+      --card-bg: #f7f8fa;
+      --shadow: 0 4px 24px rgba(0,0,0,0.07);
+    }
+    .theme-toggle {
+      position: fixed;
+      top: 24px;
+      right: 32px;
+      z-index: 100;
+      background: var(--card-bg);
+      color: var(--accent2);
+      border: none;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 2px 8px #0002;
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition), transform 0.2s;
+    }
+    .theme-toggle:hover {
+      background: var(--accent);
+      color: #fff;
+      transform: scale(1.08) rotate(-10deg);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-light) 100%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.2rem;
+    }
+    /* Hero */
+    .hero {
+      padding: 5rem 0 3rem 0;
+      text-align: center;
+      background: linear-gradient(135deg, var(--bg-mid) 0%, var(--bg-light) 100%);
+      border-radius: 0 0 40px 40px;
+      box-shadow: 0 8px 32px #00d9ff33;
+      margin-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 70vh;
+    }
+    .hero .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100%;
+      margin-top: 0;
+    }
+    .hero h1 {
+      font-size: 2.7rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      color: var(--accent);
+      letter-spacing: 1px;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-light);
+      margin-bottom: 2.2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero .cta-btn {
+      background: var(--accent);
+      color: #181c2b;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 0.9rem 2.2rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px #00d9ff33;
+      transition: background var(--transition), color var(--transition), transform var(--transition);
+      text-decoration: none;
+      display: inline-block;
+    }
+    .hero .cta-btn:hover {
+      background: var(--accent2);
+      color: #fff;
+      transform: scale(1.06);
+    }
+    /* Bölüm başlıkları */
+    section {
+      margin-bottom: 3.5rem;
+    }
+    .section-title {
+      font-size: 2rem;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 2rem;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+    /* Projeler */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+    .project-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem 1.2rem 1.5rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      transition: transform var(--transition), box-shadow var(--transition);
+      min-height: 320px;
+    }
+    .project-card:hover {
+      transform: translateY(-7px) scale(1.03);
+      box-shadow: 0 12px 36px #00d9ff44;
+    }
+    .project-img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 1.1rem;
+      background: #232946;
+      box-shadow: 0 2px 8px #00d9ff22;
+    }
+    .project-card h3 {
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+    .project-card p {
+      font-size: 1rem;
+      color: var(--text-light);
+      margin-bottom: 1.2rem;
+      flex: 1;
+    }
+    .project-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: auto;
+    }
+    .project-links a {
+      background: var(--accent);
+      color: #181c2b;
+      padding: 0.45rem 1.1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.98rem;
+      box-shadow: 0 2px 8px #00d9ff22;
+      transition: background var(--transition), color var(--transition), transform var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .project-links a:hover {
+      background: var(--accent2);
+      color: #fff;
+      transform: scale(1.07);
+    }
+    /* Hizmetler */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .service-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem 1.2rem 1.5rem 1.2rem;
+      text-align: center;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .service-card:hover {
+      transform: translateY(-7px) scale(1.03);
+      box-shadow: 0 12px 36px #00d9ff44;
+    }
+    .service-icon {
+      font-size: 2.5rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .service-card h3 {
+      color: var(--accent2);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+    }
+    .service-card p {
+      color: var(--text-light);
+      font-size: 1rem;
+    }
+    /* SSS */
+    .faq-list {
+      max-width: 700px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .faq-item {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 1.2rem 1.2rem 1.2rem 1.5rem;
+    }
+    .faq-item h4 {
+      color: var(--accent);
+      font-size: 1.08rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .faq-item p {
+      color: var(--text-light);
+      font-size: 0.98rem;
+    }
+    /* İletişim */
+    .contact-section {
+      text-align: center;
+      margin-top: 3rem;
+    }
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+    .contact-links a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color var(--transition), transform var(--transition);
+    }
+    .contact-links a:hover {
+      color: var(--accent2);
+      transform: scale(1.1);
+    }
+    @media (max-width: 700px) {
+      .hero h1 { font-size: 2rem; }
+      .section-title { font-size: 1.3rem; }
+      .container { padding: 0 0.5rem; }
+      .projects-grid, .services-grid { gap: 1rem; }
+      .project-card, .service-card { padding: 1rem; }
+      .theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 1.2rem; }
+      .hero { min-height: 60vh; padding-top: 4rem; padding-bottom: 2rem; }
+      .hero .container { margin-top: 0; }
+
+      /* Mobilde: hero dışındaki bölümler tamamen gizli */
+      .mobile-section-hidden {
+        display: none !important;
+      }
+      .mobile-section-visible {
+        display: block !important;
+        animation: fadeInMobile 0.8s cubic-bezier(.4,2,.6,1);
+      }
+      @keyframes fadeInMobile {
+        0% { opacity: 0; transform: translateY(40px); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="themeToggle" aria-label="Tema Değiştir"><i class="fa-solid fa-moon"></i></button>
+  <div class="hero">
+    <div class="container">
+      <div style="width:100%;text-align:center;font-size:7rem;margin:0 0 1.2rem 0;">🚀</div>
+      <h1>Birlikte Dijitalde Yüksel!</h1>
+      <p>Modern, hızlı ve kullanıcı dostu web siteleriyle markanı dijitalde öne çıkar. Sade ve etkili çözümlerle, hayalindeki projeleri gerçeğe dönüştür!</p>
+      <a href="#contact" class="cta-btn">İletişime Geç</a>
+    </div>
+  </div>
+  <main class="container">
+    <section class="mobile-section-hidden" id="bolum-projeler">
+      <h2 class="section-title">Örnek Çalışmalarım</h2>
+      <div class="projects-grid">
+        <div class="project-card">
+          <img class="project-img" src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=400&q=80" alt="Kişisel Blog">
+          <h3>Kişisel Blog</h3>
+          <p>Yazılım ve teknolojiyle ilgili sade ve okunabilir yazılar paylaştığım kişisel blog platformu.</p>
+          <div class="project-links">
+            <a href="#" target="_blank"><i class="fa-solid fa-eye"></i> Demo</a>
+            <a href="#" target="_blank"><i class="fa-solid fa-code"></i> Kod</a>
+          </div>
+        </div>
+        <div class="project-card">
+          <img class="project-img" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=400&q=80" alt="Oyun Skor Takip">
+          <h3>Oyun Skor Takip Uygulaması</h3>
+          <p>Arkadaşlarımla oynadığım oyunların skorlarını sade ve hızlı şekilde takip edebildiğim web uygulaması.</p>
+          <div class="project-links">
+            <a href="#" target="_blank"><i class="fa-solid fa-eye"></i> Demo</a>
+            <a href="#" target="_blank"><i class="fa-solid fa-code"></i> Kod</a>
+          </div>
+        </div>
+        <div class="project-card">
+          <img class="project-img" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Portfolyo Sitesi">
+          <h3>Portfolyo Sitesi</h3>
+          <p>Kendi portfolyomu oluşturmak için tasarladığım, sade ve mobil uyumlu bir site.</p>
+          <div class="project-links">
+            <a href="#" target="_blank"><i class="fa-solid fa-eye"></i> Demo</a>
+            <a href="#" target="_blank"><i class="fa-solid fa-code"></i> Kod</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mobile-section-hidden" id="bolum-hizmetler">
+      <h2 class="section-title">Hizmetlerim</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-laptop-code"></i></div>
+          <h3>Web Tasarım</h3>
+          <p>Modern, hızlı ve mobil uyumlu web siteleri tasarlıyorum. Markanızı dijitalde öne çıkaracak özgün çözümler sunuyorum.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-paint-brush"></i></div>
+          <h3>Frontend Geliştirme</h3>
+          <p>HTML, CSS ve JavaScript ile kullanıcı dostu ve etkileyici arayüzler geliştiriyorum.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-pen-nib"></i></div>
+          <h3>Logo & Grafik Tasarım</h3>
+          <p>Markanız için akılda kalıcı, özgün ve profesyonel logo ve grafik tasarımlar hazırlıyorum.</p>
+        </div>
+      </div>
+    </section>
+    <section class="mobile-section-hidden" id="bolum-sss">
+      <h2 class="section-title">Sıkça Sorulan Sorular</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <h4>Tasarım ücretleriniz nasıl belirleniyor?</h4>
+          <p>Projenin kapsamına, detaylarına ve teslim süresine göre fiyatlandırma yapıyorum. Her iş için adil ve şeffaf bir fiyat politikası izliyorum.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Projelerimi hangi formatlarda teslim ediyorsunuz?</h4>
+          <p>Web projelerini canlı demo ve kaynak kod olarak, grafik tasarımları ise PNG, JPG ve vektörel formatlarda teslim ediyorum.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Ne kadar sürede teslim ediyorsunuz?</h4>
+          <p>Projenin büyüklüğüne göre değişmekle birlikte, genellikle 5-7 iş günü içinde teslim ediyorum.</p>
+        </div>
+      </div>
+    </section>
+    <section id="contact" class="contact-section mobile-section-hidden">
+      <h2 class="section-title">İletişim</h2>
+      <p>Bana ulaşmak için aşağıdaki bağlantıları kullanabilirsin:</p>
+      <div class="contact-links">
+        <a href="mailto:tokibrahim2025@gmail.com"><i class="fa-solid fa-envelope"></i> E-posta</a>
+        <a href="https://github.com/ibrahimtok24" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+        <a href="https://www.instagram.com/ibrahimtok.exe/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+      </div>
+    </section>
+  </main>
+  <script>
+    // Tema değiştirme
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    function setTheme(mode) {
+      if (mode === 'light') {
+        body.classList.add('light-mode');
+        themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+      } else {
+        body.classList.remove('light-mode');
+        themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+      }
+    }
+    // Tercihi yükle
+    const savedTheme = localStorage.getItem('theme');
+    setTheme(savedTheme);
+    themeToggle.addEventListener('click', () => {
+      const isLight = body.classList.toggle('light-mode');
+      setTheme(isLight ? 'light' : 'dark');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+
+    // Mobilde: ilk açılışta sadece hero ve buton görünsün, kaydırınca diğer bölümler efektli gelsin
+    function showSectionsOnScrollMobile() {
+      if (window.innerWidth > 700) {
+        document.querySelectorAll('.mobile-section-hidden, .mobile-section-visible').forEach(sec => {
+          sec.classList.remove('mobile-section-hidden');
+          sec.classList.remove('mobile-section-visible');
+        });
+        return;
+      }
+      const sections = [
+        document.getElementById('bolum-projeler'),
+        document.getElementById('bolum-hizmetler'),
+        document.getElementById('bolum-sss'),
+        document.getElementById('contact')
+      ];
+      let scrolled = window.scrollY || window.pageYOffset;
+      // Eğer kullanıcı kaydırmaya başladıysa (ör: 40px üzeri)
+      if (scrolled > 40) {
+        sections.forEach(sec => {
+          if (sec && !sec.classList.contains('mobile-section-visible')) {
+            sec.classList.remove('mobile-section-hidden');
+            sec.classList.add('mobile-section-visible');
+          }
+        });
+      } else {
+        sections.forEach(sec => {
+          if (sec && !sec.classList.contains('mobile-section-hidden')) {
+            sec.classList.remove('mobile-section-visible');
+            sec.classList.add('mobile-section-hidden');
+          }
+        });
+      }
+    }
+    window.addEventListener('scroll', showSectionsOnScrollMobile);
+    window.addEventListener('resize', showSectionsOnScrollMobile);
+    window.addEventListener('DOMContentLoaded', showSectionsOnScrollMobile);
+  </script>
+</body>
+</html>
+
